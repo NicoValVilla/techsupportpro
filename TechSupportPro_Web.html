@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechSupport Pro — Soporte Técnico & Desarrollo en Colombia</title>
+<meta name="description" content="Soporte técnico remoto y presencial, reparación de equipos e impresoras, alquiler de equipos y desarrollo de software para empresas en toda Colombia.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* ══════════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════════ */
+:root {
+  --ink:      #0E0E0E;
+  --paper:    #F5F0EA;
+  --paper2:   #EDE7DD;
+  --white:    #FFFFFF;
+  --orange:   #FF4500;
+  --orange2:  #CC3700;
+  --dark:     #141008;
+  --muted:    #706860;
+  --border:   #D8D0C5;
+  --card:     #FAF7F2;
+  --display:  'Bebas Neue', 'Arial Black', Arial, sans-serif;
+  --body:     'Outfit', 'Segoe UI', Arial, sans-serif;
+}
+
+/* ══════════════════════════════════════════════
+   RESET
+══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { text-decoration: none; }
+
+/* ══════════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════════ */
+.wrap    { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
+.d1      { font-family: var(--display); font-size: clamp(4.5rem, 11vw, 11rem); line-height: .92; letter-spacing: .01em; }
+.d2      { font-family: var(--display); font-size: clamp(2.8rem, 6vw, 6rem);   line-height: .94; letter-spacing: .02em; }
+.eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: .9rem; }
+.lead    { font-size: 1.1rem; font-weight: 300; line-height: 1.75; color: var(--muted); }
+
+/* scroll reveal */
+.sr { opacity: 0; transform: translateY(36px); transition: opacity .7s ease, transform .7s ease; }
+.sr.on { opacity: 1; transform: none; }
+
+/* ══════════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  padding: 1.2rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background .3s, box-shadow .3s;
+}
+#nav.stuck {
+  background: rgba(245, 240, 234, .97);
+  box-shadow: 0 1px 0 var(--border);
+}
+.logo-wrap { display: flex; align-items: center; gap: .75rem; }
+.logo-box {
+  width: 36px; height: 36px; background: var(--orange);
+  border-radius: 7px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-size: 1.25rem; color: #fff;
+  transform: rotate(-3deg); transition: transform .3s;
+}
+#nav.stuck .logo-box { transform: rotate(0deg); }
+.logo-name { font-family: var(--display); font-size: 1.45rem; letter-spacing: .04em; color: var(--ink); }
+
+.nav-menu { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+.nav-menu a { font-size: .88rem; font-weight: 500; color: var(--muted); transition: color .2s; }
+.nav-menu a:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--orange) !important; color: #fff !important;
+  padding: .6rem 1.5rem; border-radius: 100px; font-weight: 600 !important;
+  transition: background .2s, transform .2s !important;
+}
+.nav-cta:hover { background: var(--orange2) !important; transform: translateY(-1px); }
+
+.burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.burger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: .3s; }
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  padding: 9rem 0 6rem;
+  background: var(--paper);
+  position: relative;
+  overflow: hidden;
+}
+
+/* stripes background */
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    -52deg,
+    transparent 0px, transparent 78px,
+    rgba(255, 69, 0, .035) 78px, rgba(255, 69, 0, .035) 79px
+  );
+  pointer-events: none;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 4rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* left */
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .55rem;
+  border: 1.5px solid var(--border); border-radius: 100px;
+  padding: .42rem 1rem; margin-bottom: 2rem;
+  font-size: .75rem; font-weight: 600; color: var(--muted);
+  letter-spacing: .07em; text-transform: uppercase;
+  animation: fadeUp .5s ease both;
+}
+.badge-dot {
+  width: 7px; height: 7px; background: var(--orange); border-radius: 50%;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{ transform: scale(1); opacity: 1; } 50%{ transform: scale(.6); opacity: .4; } }
+
+.hero-title { animation: fadeUp .6s .08s ease both; }
+.hero-title .line-a { display: block; color: var(--ink); }
+.hero-title .line-b { display: block; color: var(--orange); }
+.hero-title .line-c { display: block; color: var(--ink); }
+
+.hero-desc {
+  max-width: 50ch; margin: 1.8rem 0 2.5rem;
+  animation: fadeUp .6s .16s ease both;
+}
+
+.hero-btns {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  animation: fadeUp .6s .24s ease both;
+}
+
+.btn-fill {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--orange); color: #fff;
+  padding: .9rem 2rem; border-radius: 100px;
+  font-weight: 700; font-size: .92rem; font-family: var(--body);
+  transition: background .2s, transform .2s;
+  box-shadow: 0 6px 20px rgba(255,69,0,.28);
+}
+.btn-fill:hover { background: var(--orange2); transform: translateY(-2px); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: .5rem;
+  border: 2px solid var(--ink); color: var(--ink);
+  padding: .88rem 2rem; border-radius: 100px;
+  font-weight: 600; font-size: .92rem;
+  transition: background .2s, color .2s;
+}
+.btn-ghost:hover { background: var(--ink); color: #fff; }
+
+.hero-kpis {
+  display: flex; gap: 2.5rem; flex-wrap: wrap;
+  margin-top: 3.5rem; padding-top: 3rem;
+  border-top: 1px solid var(--border);
+  animation: fadeUp .6s .32s ease both;
+}
+.kpi-num {
+  font-family: var(--display); font-size: 2.8rem; line-height: 1;
+  color: var(--ink);
+}
+.kpi-num em { color: var(--orange); font-style: normal; }
+.kpi-label { font-size: .78rem; color: var(--muted); font-weight: 500; margin-top: .2rem; }
+
+/* right — ticket card */
+.ticket-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.8rem;
+  box-shadow: 0 20px 60px rgba(14,14,14,.12);
+  transform: rotate(2deg);
+  transition: transform .4s ease;
+  animation: fadeUp .8s .3s ease both;
+}
+.ticket-card:hover { transform: rotate(0deg); }
+
+.tc-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding-bottom: 1.2rem; margin-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.tc-id    { font-family: var(--display); font-size: 1.1rem; color: var(--muted); letter-spacing: .04em; }
+.tc-badge { background: var(--orange); color: #fff; font-size: .68rem; font-weight: 700; padding: .28rem .75rem; border-radius: 100px; letter-spacing: .06em; }
+.tc-title { font-weight: 700; font-size: 1.05rem; margin-bottom: .3rem; }
+.tc-sub   { font-size: .8rem; color: var(--muted); }
+
+.tc-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: .6rem 0; border-bottom: 1px solid #F2EDE5;
+  font-size: .83rem;
+}
+.tc-row:last-of-type { border-bottom: none; }
+.tc-row-k { color: var(--muted); font-weight: 500; }
+.tc-row-v { font-weight: 600; }
+.tc-row-v.o { color: var(--orange); }
+.tc-row-v.g { color: #16A34A; }
+
+.tc-bar-wrap { margin-top: 1.2rem; }
+.tc-bar-lbl { font-size: .72rem; font-weight: 600; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: .45rem; }
+.tc-bar { height: 5px; background: var(--paper2); border-radius: 100px; overflow: hidden; }
+.tc-bar-fill {
+  height: 100%; background: var(--orange); border-radius: 100px;
+  width: 0; animation: barGrow 2s 1.2s ease forwards;
+}
+@keyframes barGrow { to { width: 72%; } }
+
+.tc-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 1.2rem; padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+.tc-tech { display: flex; align-items: center; gap: .6rem; }
+.tc-av {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--orange); color: #fff;
+  font-family: var(--display); font-size: .88rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.tc-tech-name { font-size: .8rem; font-weight: 600; }
+.tc-tech-role { font-size: .7rem; color: var(--muted); }
+.tc-eta { font-size: .75rem; color: var(--muted); font-weight: 500; }
+
+/* floating chips */
+.chip {
+  position: absolute;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: .55rem 1rem;
+  font-size: .78rem; font-weight: 600;
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+  white-space: nowrap;
+}
+.chip-a { top: -18px; right: 12px; animation: chipFloat 5s ease-in-out infinite; }
+.chip-b { bottom: 20px; left: -24px; animation: chipFloat 5s 1.5s ease-in-out infinite; }
+.chip-c { bottom: 80px; right: -18px; animation: chipFloat 5s 3s ease-in-out infinite; }
+@keyframes chipFloat { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }
+
+@keyframes fadeUp { from{ opacity:0; transform:translateY(28px); } to{ opacity:1; transform:none; } }
+
+/* ══════════════════════════════════════════════
+   TICKER BAR
+══════════════════════════════════════════════ */
+.ticker {
+  background: var(--ink);
+  padding: .85rem 0;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+  overflow: hidden;
+}
+.ticker-track {
+  display: flex; gap: 3rem; width: max-content;
+  animation: ticker 24s linear infinite;
+}
+.ticker-track:hover { animation-play-state: paused; }
+@keyframes ticker { from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+.ticker-item {
+  display: flex; align-items: center; gap: .6rem;
+  color: rgba(255,255,255,.45); font-size: .8rem; font-weight: 500;
+  white-space: nowrap; letter-spacing: .05em;
+}
+.ticker-sep { color: var(--orange); font-size: .45rem; }
+
+/* ══════════════════════════════════════════════
+   SERVICIOS
+══════════════════════════════════════════════ */
+#servicios {
+  padding: 8rem 0;
+  background: var(--paper);
+}
+.sec-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 4rem; gap: 2rem; flex-wrap: wrap;
+}
+
+/* numbered list style */
+.svc-list { list-style: none; }
+
+.svc-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 180px;
+  align-items: center; gap: 2.5rem;
+  padding: 2.2rem 1.5rem;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+  position: relative; overflow: hidden;
+  transition: padding .3s;
+}
+.svc-row:last-child { border-bottom: 1px solid var(--border); }
+
+/* orange fill on hover */
+.svc-row::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--orange);
+  transform: scaleX(0); transform-origin: left center;
+  transition: transform .38s cubic-bezier(.16,1,.3,1);
+  z-index: 0;
+}
+.svc-row:hover::before { transform: scaleX(1); }
+
+.svc-row > * { position: relative; z-index: 1; }
+
+.svc-n {
+  font-family: var(--display); font-size: 3rem; color: var(--border);
+  transition: color .3s;
+}
+.svc-row:hover .svc-n { color: rgba(255,255,255,.25); }
+
+.svc-name {
+  font-family: var(--display); font-size: 2rem; letter-spacing: .02em;
+  margin-bottom: .35rem; transition: color .3s;
+}
+.svc-row:hover .svc-name { color: #fff; }
+
+.svc-body p {
+  font-size: .86rem; color: var(--muted); font-weight: 400; max-width: 52ch;
+  transition: color .3s;
+}
+.svc-row:hover .svc-body p { color: rgba(255,255,255,.7); }
+
+.svc-right { text-align: right; }
+.svc-price {
+  font-family: var(--display); font-size: 1.7rem; transition: color .3s;
+}
+.svc-row:hover .svc-price { color: #fff; }
+.svc-unit { font-size: .75rem; color: var(--muted); transition: color .3s; }
+.svc-row:hover .svc-unit { color: rgba(255,255,255,.6); }
+.svc-arrow {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border: 1.5px solid var(--border);
+  border-radius: 50%; margin-top: .6rem; margin-left: auto;
+  font-size: 1rem; color: var(--muted);
+  transition: all .3s;
+}
+.svc-row:hover .svc-arrow { background: #fff; border-color: #fff; color: var(--orange); transform: rotate(45deg); }
+
+/* ══════════════════════════════════════════════
+   PROCESO
+══════════════════════════════════════════════ */
+#proceso {
+  padding: 8rem 0;
+  background: var(--dark);
+  color: #fff;
+  position: relative; overflow: hidden;
+}
+#proceso::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    -52deg, transparent 0, transparent 78px,
+    rgba(255,69,0,.05) 78px, rgba(255,69,0,.05) 79px
+  );
+  pointer-events: none;
+}
+.proceso-head { margin-bottom: 4.5rem; position: relative; z-index: 1; }
+.proceso-head .eyebrow { color: var(--orange); }
+
+.proceso-steps {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 0;
+  position: relative; z-index: 1;
+}
+.p-step {
+  padding: 2rem 1.8rem 2rem 0;
+  border-left: 1px solid rgba(255,255,255,.08);
+  padding-left: 1.8rem;
+}
+.p-step:first-child { border-left: none; padding-left: 0; }
+
+.p-num {
+  font-family: var(--display); font-size: 4.5rem; color: rgba(255,255,255,.06);
+  line-height: 1; margin-bottom: .4rem;
+}
+.p-icon {
+  width: 46px; height: 46px; background: var(--orange);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; margin-bottom: 1.3rem;
+}
+.p-title {
+  font-family: var(--display); font-size: 1.55rem; color: #fff;
+  margin-bottom: .65rem; letter-spacing: .02em;
+}
+.p-desc { font-size: .84rem; color: rgba(255,255,255,.48); line-height: 1.65; font-weight: 300; }
+
+/* ══════════════════════════════════════════════
+   PLANES
+══════════════════════════════════════════════ */
+#planes {
+  padding: 8rem 0;
+  background: var(--paper);
+}
+.planes-head { margin-bottom: 4rem; }
+
+.plans-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1.5rem; align-items: start;
+}
+
+.plan {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 2.5rem 2rem;
+  position: relative; transition: transform .3s, box-shadow .3s;
+}
+.plan:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(14,14,14,.1); }
+
+.plan.hot {
+  background: var(--ink); color: #fff;
+  border-color: var(--ink);
+  transform: scale(1.03);
+}
+.plan.hot:hover { transform: scale(1.03) translateY(-5px); }
+
+.plan-tag {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--orange); color: #fff;
+  font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: .3rem 1rem; border-radius: 100px; white-space: nowrap;
+}
+
+.plan-name { font-family: var(--display); font-size: 1.75rem; letter-spacing: .03em; margin-bottom: .4rem; }
+.plan-desc { font-size: .83rem; color: var(--muted); margin-bottom: 1.8rem; line-height: 1.55; }
+.plan.hot .plan-desc { color: rgba(255,255,255,.5); }
+
+.plan-price {
+  display: flex; align-items: baseline; gap: .25rem;
+  padding-bottom: 1.8rem; margin-bottom: 1.8rem;
+  border-bottom: 1px solid var(--border);
+}
+.plan.hot .plan-price { border-color: rgba(255,255,255,.12); }
+.pp-s { font-size: 1.2rem; color: var(--muted); padding-top: .3rem; }
+.pp-a { font-family: var(--display); font-size: 3.5rem; line-height: 1; }
+.pp-p { font-size: .78rem; color: var(--muted); align-self: flex-end; padding-bottom: .3rem; }
+.plan.hot .pp-s, .plan.hot .pp-p { color: rgba(255,255,255,.4); }
+
+.plan-feats { list-style: none; margin-bottom: 2rem; }
+.plan-feats li {
+  display: flex; gap: .75rem; padding: .58rem 0;
+  font-size: .85rem; border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.plan-feats li:last-child { border-bottom: none; }
+.plan.hot .plan-feats li { color: rgba(255,255,255,.8); border-bottom-color: rgba(255,255,255,.06); }
+.fi { flex-shrink: 0; margin-top: .1rem; font-size: .9rem; }
+.fi-y { color: #16A34A; }
+.fi-n { color: var(--border); }
+.plan.hot .fi-y { color: #4ADE80; }
+.plan.hot .fi-n { color: rgba(255,255,255,.15); }
+
+.btn-plan {
+  display: block; width: 100%; padding: .95rem; border-radius: 100px;
+  text-align: center; font-weight: 700; font-size: .88rem;
+  font-family: var(--body); cursor: pointer; border: none; transition: all .25s;
+}
+.btn-border { background: transparent; border: 2px solid var(--ink); color: var(--ink); }
+.btn-border:hover { background: var(--ink); color: #fff; }
+.btn-orange { background: var(--orange); color: #fff; box-shadow: 0 6px 18px rgba(255,69,0,.28); }
+.btn-orange:hover { background: var(--orange2); transform: translateY(-1px); }
+.btn-white { background: #fff; color: var(--ink); }
+.btn-white:hover { background: var(--paper); }
+
+/* ══════════════════════════════════════════════
+   TESTIMONIOS
+══════════════════════════════════════════════ */
+#testimonios {
+  padding: 8rem 0;
+  background: var(--paper2);
+}
+.test-head { margin-bottom: 4rem; }
+
+.test-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+}
+.test-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 18px; padding: 2.2rem;
+  transition: transform .3s, box-shadow .3s;
+}
+.test-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(14,14,14,.08); }
+
+.test-stars { color: var(--orange); font-size: .9rem; letter-spacing: .1em; margin-bottom: 1rem; }
+.test-quote {
+  font-size: .88rem; line-height: 1.75; color: #3D3530;
+  font-style: italic; font-weight: 300; margin-bottom: 1.6rem;
+}
+.test-author { display: flex; align-items: center; gap: .85rem; }
+.test-av {
+  width: 42px; height: 42px; border-radius: 50%; background: var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-family: var(--display); font-size: .95rem; flex-shrink: 0;
+}
+.test-name { font-weight: 700; font-size: .85rem; }
+.test-role { font-size: .75rem; color: var(--muted); margin-top: .1rem; }
+
+/* ══════════════════════════════════════════════
+   CONTACTO
+══════════════════════════════════════════════ */
+#contacto {
+  padding: 8rem 0;
+  background: var(--dark);
+  color: #fff;
+  position: relative; overflow: hidden;
+}
+#contacto::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,69,0,.1) 0%, transparent 70%);
+  top: -200px; right: -100px;
+  pointer-events: none;
+}
+
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; align-items: start;
+  position: relative; z-index: 1;
+}
+
+.contact-left .eyebrow { color: var(--orange); }
+.contact-left .d2 { color: #fff; margin: .8rem 0 1.4rem; }
+.contact-left > p { font-size: .92rem; color: rgba(255,255,255,.5); line-height: 1.8; margin-bottom: 2.5rem; font-weight: 300; }
+
+.contact-perks { list-style: none; margin-bottom: 3rem; display: flex; flex-direction: column; gap: .9rem; }
+.contact-perks li { display: flex; align-items: center; gap: .9rem; font-size: .88rem; color: rgba(255,255,255,.65); }
+.perk-icon {
+  width: 34px; height: 34px; border: 1px solid rgba(255,255,255,.12);
+  border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  font-size: .95rem; flex-shrink: 0;
+}
+
+.contact-links { display: flex; flex-direction: column; gap: .8rem; }
+.c-link { display: flex; align-items: center; gap: .7rem; font-size: .85rem; color: rgba(255,255,255,.45); transition: color .2s; }
+.c-link:hover { color: rgba(255,255,255,.9); }
+
+/* form card */
+.form-card {
+  background: var(--paper); border-radius: 22px; padding: 2.8rem 2.2rem;
+}
+.form-title { font-family: var(--display); font-size: 1.9rem; letter-spacing: .03em; margin-bottom: .3rem; }
+.form-subtitle { font-size: .82rem; color: var(--muted); margin-bottom: 2rem; }
+
+.form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-grp { display: flex; flex-direction: column; gap: .38rem; margin-bottom: .9rem; }
+.form-grp label { font-size: .73rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.form-grp input,
+.form-grp select,
+.form-grp textarea {
+  background: #fff; border: 1.5px solid var(--border);
+  border-radius: 10px; padding: .82rem 1rem;
+  color: var(--ink); font-family: var(--body); font-size: .9rem;
+  outline: none; transition: border .2s, box-shadow .2s; width: 100%;
+}
+.form-grp input::placeholder, .form-grp textarea::placeholder { color: #B8B0A5; }
+.form-grp input:focus, .form-grp select:focus, .form-grp textarea:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,69,0,.1);
+}
+.form-grp select { cursor: pointer; }
+.form-grp textarea { resize: vertical; min-height: 105px; }
+
+.btn-send {
+  width: 100%; background: var(--orange); color: #fff; border: none;
+  padding: 1.05rem; border-radius: 100px;
+  font-family: var(--body); font-weight: 700; font-size: .95rem;
+  cursor: pointer; transition: background .2s, transform .2s;
+  box-shadow: 0 6px 20px rgba(255,69,0,.28);
+  margin-top: .4rem;
+}
+.btn-send:hover { background: var(--orange2); transform: translateY(-1px); }
+.btn-send.ok { background: #16A34A; box-shadow: 0 6px 20px rgba(22,163,74,.28); }
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+footer {
+  background: #0A0804;
+  padding: 5rem 0 2.5rem;
+  color: rgba(255,255,255,.4);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3.5rem;
+  margin-bottom: 4rem;
+}
+.footer-brand .logo-wrap { margin-bottom: 1.1rem; }
+.footer-brand .logo-name { color: #fff; }
+.footer-brand p { font-size: .83rem; line-height: 1.75; max-width: 26ch; margin-bottom: 1.4rem; }
+
+.footer-socials { display: flex; gap: .6rem; }
+.fsoc {
+  width: 34px; height: 34px; border: 1px solid rgba(255,255,255,.1); border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.35); font-size: .8rem; transition: all .2s;
+}
+.fsoc:hover { border-color: var(--orange); color: var(--orange); }
+
+.footer-col h4 { font-family: var(--display); font-size: 1.05rem; color: #fff; margin-bottom: 1.2rem; letter-spacing: .05em; }
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: .6rem; }
+.footer-col a { font-size: .83rem; color: rgba(255,255,255,.38); transition: color .2s; }
+.footer-col a:hover { color: var(--orange); }
+
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,.06);
+  flex-wrap: wrap; gap: 1rem;
+  font-size: .78rem;
+}
+.footer-bottom a { color: rgba(255,255,255,.35); transition: color .2s; }
+.footer-bottom a:hover { color: var(--orange); }
+
+/* ══════════════════════════════════════════════
+   WHATSAPP BUTTON
+══════════════════════════════════════════════ */
+.wa-btn {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 400;
+  display: flex; align-items: center; gap: .7rem;
+  background: #25D366; color: #fff;
+  padding: .85rem 1.5rem; border-radius: 100px;
+  font-weight: 700; font-size: .85rem; font-family: var(--body);
+  box-shadow: 0 8px 28px rgba(37,211,102,.42);
+  transition: transform .25s, box-shadow .25s;
+  animation: waBounce 3s 2s ease-in-out infinite;
+}
+.wa-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(37,211,102,.55); animation: none; }
+@keyframes waBounce { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-6px); } }
+
+/* progress bar */
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: var(--orange); z-index: 600; width: 0; transition: width .1s;
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .hero-grid    { grid-template-columns: 1fr; }
+  .ticket-card, .chip { display: none; }
+  .plans-grid   { grid-template-columns: 1fr; max-width: 440px; }
+  .plan.hot     { transform: none; }
+  .plan.hot:hover { transform: translateY(-5px); }
+  .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .footer-grid  { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .proceso-steps { grid-template-columns: repeat(2,1fr); gap: 2.5rem; }
+  .p-step:nth-child(3) { border-left: none; padding-left: 0; }
+}
+
+@media (max-width: 768px) {
+  #hero { padding: 7rem 0 4rem; }
+  .svc-row { grid-template-columns: 60px 1fr; gap: 1rem; }
+  .svc-right { display: none; }
+  .sec-head { flex-direction: column; align-items: flex-start; }
+  .test-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .proceso-steps { grid-template-columns: 1fr; }
+  .p-step { border-left: none; padding-left: 0; }
+  .hero-btns { flex-direction: column; }
+  .btn-fill, .btn-ghost { width: 100%; justify-content: center; }
+  .nav-menu { display: none; flex-direction: column; gap: 1.2rem;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: rgba(245,240,234,.98); padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border); }
+  .nav-menu.open { display: flex; }
+  .burger { display: flex; }
+  .form-row2 { grid-template-columns: 1fr; }
+  .wa-btn span { display: none; }
+  .wa-btn { padding: 1rem; border-radius: 50%; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="prog"></div>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#" class="logo-wrap">
+    <div class="logo-box">T</div>
+    <span class="logo-name">TechSupport&nbsp;Pro</span>
+  </a>
+
+  <ul class="nav-menu" id="menu">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#planes">Planes</a></li>
+    <li><a href="#testimonios">Clientes</a></li>
+    <li><a href="#contacto" class="nav-cta">Solicitar soporte</a></li>
+  </ul>
+
+  <button class="burger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+
+      <!-- left -->
+      <div>
+        <span class="hero-badge">
+          <span class="badge-dot"></span>
+          Cobertura nacional &mdash; Todo Colombia
+        </span>
+
+        <h1 class="d1 hero-title">
+          <span class="line-a">TU TECH</span>
+          <span class="line-b">SIEMPRE</span>
+          <span class="line-c">EN PIE.</span>
+        </h1>
+
+        <p class="lead hero-desc">
+          Soporte técnico remoto y presencial, reparación de equipos e impresoras, alquiler de equipos y desarrollo de software para empresas en toda Colombia.
+        </p>
+
+        <div class="hero-btns">
+          <a href="#contacto" class="btn-fill">Solicitar soporte &rarr;</a>
+          <a href="#servicios" class="btn-ghost">Ver servicios</a>
+        </div>
+
+        <div class="hero-kpis">
+          <div>
+            <div class="kpi-num"><span id="k1">0</span><em>+</em></div>
+            <div class="kpi-label">Clientes activos</div>
+          </div>
+          <div>
+            <div class="kpi-num"><span id="k2">0</span><em>%</em></div>
+            <div class="kpi-label">Satisfacci&oacute;n</div>
+          </div>
+          <div>
+            <div class="kpi-num">&lt;<span id="k3">0</span><em>h</em></div>
+            <div class="kpi-label">Resp. remoto</div>
+          </div>
+          <div>
+            <div class="kpi-num"><span id="k4">0</span><em>/7</em></div>
+            <div class="kpi-label">Disponibilidad</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- right — ticket card -->
+      <div style="position:relative;">
+        <div class="chip chip-a">&#10003; Ticket resuelto en 38 min</div>
+        <div class="chip chip-b">&#128295; Red empresarial restaurada</div>
+        <div class="chip chip-c">&#11088; 4.9 / 5.0 calificaci&oacute;n</div>
+
+        <div class="ticket-card">
+          <div class="tc-top">
+            <div>
+              <div class="tc-id">TSP-202601-00247</div>
+              <div class="tc-title">Impresora HP LaserJet no imprime</div>
+              <div class="tc-sub">Constructora Andes S.A.S &mdash; Medell&iacute;n</div>
+            </div>
+            <span class="tc-badge">EN PROCESO</span>
+          </div>
+          <div class="tc-row"><span class="tc-row-k">Tipo</span><span class="tc-row-v">Reparaci&oacute;n de impresora</span></div>
+          <div class="tc-row"><span class="tc-row-k">Prioridad</span><span class="tc-row-v o">ALTA</span></div>
+          <div class="tc-row"><span class="tc-row-k">Costo estimado</span><span class="tc-row-v">$168.750 COP</span></div>
+          <div class="tc-row"><span class="tc-row-k">Estado pago</span><span class="tc-row-v g">Nequi &#10003;</span></div>
+          <div class="tc-bar-wrap">
+            <div class="tc-bar-lbl">Progreso del diagn&oacute;stico</div>
+            <div class="tc-bar"><div class="tc-bar-fill"></div></div>
+          </div>
+          <div class="tc-footer">
+            <div class="tc-tech">
+              <div class="tc-av">JM</div>
+              <div>
+                <div class="tc-tech-name">Juan Mart&iacute;nez</div>
+                <div class="tc-tech-role">T&eacute;cnico asignado</div>
+              </div>
+            </div>
+            <div class="tc-eta">ETA: 52 min</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TICKER
+══════════════════════════════════════════ -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">HP <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Lenovo <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Dell <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Apple <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Epson <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Canon <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Cisco <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Ubiquiti <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Microsoft <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Linux <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">TP-Link <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Samsung <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Brother <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Asus <span class="ticker-sep">&#9679;</span></span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">HP <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Lenovo <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Dell <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Apple <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Epson <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Canon <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Cisco <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Ubiquiti <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Microsoft <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Linux <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">TP-Link <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Samsung <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Brother <span class="ticker-sep">&#9679;</span></span>
+    <span class="ticker-item">Asus <span class="ticker-sep">&#9679;</span></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SERVICIOS
+══════════════════════════════════════════ -->
+<section id="servicios">
+  <div class="wrap">
+    <div class="sec-head sr">
+      <div>
+        <span class="eyebrow">Lo que hacemos</span>
+        <h2 class="d2">Servicios</h2>
+      </div>
+      <p class="lead" style="max-width:40ch">Un solo proveedor para todas las necesidades tecnol&oacute;gicas de tu empresa.</p>
+    </div>
+
+    <ul class="svc-list">
+
+      <li class="svc-row sr">
+        <div class="svc-n">01</div>
+        <div class="svc-body">
+          <div class="svc-name">Soporte T&eacute;cnico Remoto</div>
+          <p>Diagn&oacute;stico y resoluci&oacute;n en tiempo real desde cualquier ciudad de Colombia. Acceso seguro, respuesta en menos de 2 horas, sin necesidad de visita.</p>
+        </div>
+        <div class="svc-right">
+          <div class="svc-price">$45.000</div>
+          <div class="svc-unit">COP / sesi&oacute;n</div>
+          <div class="svc-arrow">&nearr;</div>
+        </div>
+      </li>
+
+      <li class="svc-row sr">
+        <div class="svc-n">02</div>
+        <div class="svc-body">
+          <div class="svc-name">Soporte T&eacute;cnico Presencial</div>
+          <p>Nuestros t&eacute;cnicos se desplazan hasta tu empresa. Diagn&oacute;stico, reparaci&oacute;n y mantenimiento de equipos con garant&iacute;a de 30 d&iacute;as en la soluci&oacute;n.</p>
+        </div>
+        <div class="svc-right">
+          <div class="svc-price">$85.000</div>
+          <div class="svc-unit">COP / visita</div>
+          <div class="svc-arrow">&nearr;</div>
+        </div>
+      </li>
+
+      <li class="svc-row sr">
+        <div class="svc-n">03</div>
+        <div class="svc-body">
+          <div class="svc-name">Reparaci&oacute;n de PC y Laptop</div>
+          <p>Diagn&oacute;stico completo de hardware y software. Reemplazo de piezas, recuperaci&oacute;n de datos, actualizaci&oacute;n de componentes. Repuestos originales garantizados.</p>
+        </div>
+        <div class="svc-right">
+          <div class="svc-price">$130.000</div>
+          <div class="svc-unit">COP desde</div>
+          <div class="svc-arrow">&nearr;</div>
+        </div>
+      </li>
+
+      <li class="svc-row sr">
+        <div class="svc-n">04</div>
+        <div class="svc-body">
+          <div class="svc-name">Reparaci&oacute;n de Impresoras</div>
+          <p>HP, Epson, Canon, Brother, Lexmark. Limpieza de cabezales, cambio de fusor, reparaci&oacute;n de alimentaci&oacute;n. Mantenimiento preventivo y correctivo.</p>
+        </div>
+        <div class="svc-right">
+          <div class="svc-price">$125.000</div>
+          <div class="svc-unit">COP desde</div>
+          <div class="svc-arrow">&nearr;</div>
+        </div>
+      </li>
+
+      <li class="svc-row sr">
+        <div class="svc-n">05</div>
+        <div class="svc-body">
+          <div class="svc-name">Alquiler de Equipos</div>
+          <p>Laptops, desktops, impresoras y servidores para eventos, proyectos temporales o refuerzo de capacidad. Equipos revisados, configurados y listos desde el d&iacute;a uno.</p>
+        </div>
+        <div class="svc-right">
+          <div class="svc-price">$35.000</div>
+          <div class="svc-unit">COP / d&iacute;a</div>
+          <div class="svc-arrow">&nearr;</div>
+        </div>
+      </li>
+
+      <li class="svc-row sr">
+        <div class="svc-n">06</div>
+        <div class="svc-body">
+          <div class="svc-name">Desarrollo de Software</div>
+          <p>Sistemas a medida, apps web y m&oacute;viles, APIs, automatizaci&oacute;n de procesos y transformaci&oacute;n digital. Desde MVP hasta soluciones empresariales escalables.</p>
+        </div>
+        <div class="svc-right">
+          <div class="svc-price">Cotizaci&oacute;n</div>
+          <div class="svc-unit">personalizada</div>
+          <div class="svc-arrow">&nearr;</div>
+        </div>
+      </li>
+
+      <li class="svc-row sr">
+        <div class="svc-n">07</div>
+        <div class="svc-body">
+          <div class="svc-name">Redes e Infraestructura</div>
+          <p>Dise&ntilde;o, instalaci&oacute;n y mantenimiento de redes LAN/WiFi. Configuraci&oacute;n de routers, switches, access points y VPN para empresas de cualquier tama&ntilde;o.</p>
+        </div>
+        <div class="svc-right">
+          <div class="svc-price">$200.000</div>
+          <div class="svc-unit">COP desde</div>
+          <div class="svc-arrow">&nearr;</div>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PROCESO
+══════════════════════════════════════════ -->
+<section id="proceso">
+  <div class="wrap">
+    <div class="proceso-head sr">
+      <span class="eyebrow">C&oacute;mo funciona</span>
+      <h2 class="d2" style="color:#fff">4 pasos.<br>Sin sorpresas.</h2>
+    </div>
+    <div class="proceso-steps">
+      <div class="p-step sr">
+        <div class="p-num">01</div>
+        <div class="p-icon">&#128221;</div>
+        <div class="p-title">Cu&eacute;ntanos</div>
+        <p class="p-desc">Escr&iacute;benos por WhatsApp o llena el formulario. Describe el problema y el equipo afectado. Sin tr&aacute;mites innecesarios.</p>
+      </div>
+      <div class="p-step sr" style="transition-delay:.1s">
+        <div class="p-num">02</div>
+        <div class="p-icon">&#128269;</div>
+        <div class="p-title">Diagn&oacute;stico</div>
+        <p class="p-desc">En menos de 2 horas (remoto) o el mismo d&iacute;a (presencial) te entregamos el diagn&oacute;stico y el presupuesto exacto. Sin costos ocultos.</p>
+      </div>
+      <div class="p-step sr" style="transition-delay:.2s">
+        <div class="p-num">03</div>
+        <div class="p-icon">&#9881;&#65039;</div>
+        <div class="p-title">Soluci&oacute;n</div>
+        <p class="p-desc">Nuestro t&eacute;cnico especializado resuelve el problema con repuestos originales y herramientas certificadas. Te informamos en tiempo real.</p>
+      </div>
+      <div class="p-step sr" style="transition-delay:.3s">
+        <div class="p-num">04</div>
+        <div class="p-icon">&#128737;&#65039;</div>
+        <div class="p-title">Garant&iacute;a</div>
+        <p class="p-desc">30 d&iacute;as de garant&iacute;a sobre la soluci&oacute;n. Si el problema regresa, lo resolvemos sin cargo adicional. As&iacute; de simple.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     PLANES
+══════════════════════════════════════════ -->
+<section id="planes">
+  <div class="wrap">
+    <div class="planes-head sr">
+      <span class="eyebrow">Planes de soporte</span>
+      <h2 class="d2">El plan correcto<br>para tu empresa.</h2>
+    </div>
+    <div class="plans-grid">
+
+      <div class="plan sr">
+        <div class="plan-name">B&aacute;sico</div>
+        <p class="plan-desc">Para emprendedores y peque&ntilde;as empresas con necesidades espor&aacute;dicas de soporte.</p>
+        <div class="plan-price">
+          <span class="pp-s">$</span>
+          <span class="pp-a">0</span>
+          <span class="pp-p">sin mensualidad</span>
+        </div>
+        <ul class="plan-feats">
+          <li><span class="fi fi-y">&#10003;</span> Soporte remoto por ticket</li>
+          <li><span class="fi fi-y">&#10003;</span> Hasta 2 tickets simult&aacute;neos</li>
+          <li><span class="fi fi-y">&#10003;</span> Diagn&oacute;stico gratuito</li>
+          <li><span class="fi fi-y">&#10003;</span> Respuesta en 4 horas</li>
+          <li><span class="fi fi-n">&#10007;</span> Visitas presenciales prioritarias</li>
+          <li><span class="fi fi-n">&#10007;</span> Mantenimiento preventivo</li>
+          <li><span class="fi fi-n">&#10007;</span> Descuentos en servicios</li>
+        </ul>
+        <a href="#contacto" class="btn-plan btn-border">Empezar gratis</a>
+      </div>
+
+      <div class="plan hot sr" style="transition-delay:.1s">
+        <div class="plan-tag">MAS POPULAR</div>
+        <div class="plan-name">Profesional</div>
+        <p class="plan-desc">Para empresas medianas que necesitan soporte confiable y respuesta r&aacute;pida garantizada.</p>
+        <div class="plan-price">
+          <span class="pp-s">$</span>
+          <span class="pp-a" style="color:#fff">390K</span>
+          <span class="pp-p">/ mes + IVA</span>
+        </div>
+        <ul class="plan-feats">
+          <li><span class="fi fi-y">&#10003;</span> Todo lo del plan B&aacute;sico</li>
+          <li><span class="fi fi-y">&#10003;</span> Hasta 8 tickets simult&aacute;neos</li>
+          <li><span class="fi fi-y">&#10003;</span> Respuesta garantizada &lt; 2 horas</li>
+          <li><span class="fi fi-y">&#10003;</span> 3 visitas presenciales / mes</li>
+          <li><span class="fi fi-y">&#10003;</span> Mantenimiento preventivo trimestral</li>
+          <li><span class="fi fi-y">&#10003;</span> 15% dcto. en todos los servicios</li>
+          <li><span class="fi fi-y">&#10003;</span> WhatsApp directo con el t&eacute;cnico</li>
+        </ul>
+        <a href="#contacto" class="btn-plan btn-orange">Contratar ahora</a>
+      </div>
+
+      <div class="plan sr" style="transition-delay:.2s">
+        <div class="plan-name">Empresarial</div>
+        <p class="plan-desc">Para grandes empresas con infraestructura cr&iacute;tica, m&uacute;ltiples sedes y alta demanda.</p>
+        <div class="plan-price">
+          <span class="pp-s">$</span>
+          <span class="pp-a">950K</span>
+          <span class="pp-p">/ mes + IVA</span>
+        </div>
+        <ul class="plan-feats">
+          <li><span class="fi fi-y">&#10003;</span> Todo lo del plan Profesional</li>
+          <li><span class="fi fi-y">&#10003;</span> Tickets ilimitados</li>
+          <li><span class="fi fi-y">&#10003;</span> Respuesta garantizada &lt; 30 min</li>
+          <li><span class="fi fi-y">&#10003;</span> Visitas presenciales ilimitadas</li>
+          <li><span class="fi fi-y">&#10003;</span> T&eacute;cnico dedicado asignado</li>
+          <li><span class="fi fi-y">&#10003;</span> 25% dcto. en todos los servicios</li>
+          <li><span class="fi fi-y">&#10003;</span> Acceso a desarrollo de software</li>
+        </ul>
+        <a href="#contacto" class="btn-plan btn-border">Contactar asesor</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TESTIMONIOS
+══════════════════════════════════════════ -->
+<section id="testimonios">
+  <div class="wrap">
+    <div class="test-head sr">
+      <span class="eyebrow">Lo que dicen nuestros clientes</span>
+      <h2 class="d2">Empresas que<br>conf&iacute;an en nosotros.</h2>
+    </div>
+    <div class="test-grid">
+
+      <div class="test-card sr">
+        <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="test-quote">"La impresora de producci&oacute;n fall&oacute; un viernes a las 6pm. TechSupport Pro lleg&oacute; en 50 minutos y la dej&oacute; funcionando. No perdimos ni un pedido. Eso vale oro."</p>
+        <div class="test-author">
+          <div class="test-av">CM</div>
+          <div>
+            <div class="test-name">Carlos Mu&ntilde;oz</div>
+            <div class="test-role">Gerente &middot; Litograf&iacute;a Central, Bogot&aacute;</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card sr" style="transition-delay:.1s">
+        <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="test-quote">"El soporte remoto es incre&iacute;ble. Me resolvieron un problema cr&iacute;tico de servidor en 25 minutos desde Cali. Ya no espero t&eacute;cnicos locales para cada cosa."</p>
+        <div class="test-author">
+          <div class="test-av">LR</div>
+          <div>
+            <div class="test-name">Laura R&iacute;os</div>
+            <div class="test-role">CTO &middot; Startup Fintech, Cali</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="test-card sr" style="transition-delay:.2s">
+        <div class="test-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="test-quote">"Desarrollaron nuestro sistema de gesti&oacute;n desde cero en 3 meses. Puntual, dentro del presupuesto y con soporte postventa real. El mejor proveedor que hemos tenido."</p>
+        <div class="test-author">
+          <div class="test-av">AP</div>
+          <div>
+            <div class="test-name">Andr&eacute;s Pati&ntilde;o</div>
+            <div class="test-role">Director &middot; Constructora Norte, Medell&iacute;n</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CONTACTO
+══════════════════════════════════════════ -->
+<section id="contacto">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <div class="contact-left sr">
+        <span class="eyebrow">Hablemos</span>
+        <h2 class="d2">Tu tecnolog&iacute;a<br>tiene un problema<br>hoy?</h2>
+        <p>Cu&eacute;ntanos qu&eacute; pas&oacute; y te respondemos en menos de 2 horas en d&iacute;as h&aacute;biles. Sin formularios kil&oacute;m&eacute;tricos, sin esperas absurdas.</p>
+        <ul class="contact-perks">
+          <li><div class="perk-icon">&#9889;</div> Respuesta en menos de 2 horas h&aacute;biles</li>
+          <li><div class="perk-icon">&#127758;</div> Soporte remoto en toda Colombia</li>
+          <li><div class="perk-icon">&#128737;</div> 30 d&iacute;as de garant&iacute;a en cada servicio</li>
+          <li><div class="perk-icon">&#128172;</div> Sin costos ocultos ni letra peque&ntilde;a</li>
+        </ul>
+        <div class="contact-links">
+          <a href="https://wa.me/573001234567" target="_blank" class="c-link">&#128241; WhatsApp: +57 300 123 4567</a>
+          <a href="mailto:soporte@techsupportpro.com.co" class="c-link">&#9993;&#65039; soporte@techsupportpro.com.co</a>
+          <a href="tel:+576013456789" class="c-link">&#128222; (601) 345-6789 &middot; Lun&ndash;S&aacute;b 7am&ndash;8pm</a>
+        </div>
+      </div>
+
+      <div class="sr" style="transition-delay:.15s">
+        <div class="form-card">
+          <div class="form-title">Solicitar servicio</div>
+          <div class="form-subtitle">Respuesta garantizada en &lt; 2 horas h&aacute;biles.</div>
+
+          <form onsubmit="submitForm(event)">
+            <div class="form-row2">
+              <div class="form-grp">
+                <label>Nombre</label>
+                <input type="text" placeholder="Tu nombre" required id="fn">
+              </div>
+              <div class="form-grp">
+                <label>Empresa</label>
+                <input type="text" placeholder="Opcional" id="fe">
+              </div>
+            </div>
+            <div class="form-grp">
+              <label>Correo electr&oacute;nico</label>
+              <input type="email" placeholder="tu@empresa.com" required id="fem">
+            </div>
+            <div class="form-grp">
+              <label>WhatsApp / Tel&eacute;fono</label>
+              <input type="tel" placeholder="+57 300 000 0000" id="ft">
+            </div>
+            <div class="form-grp">
+              <label>Servicio que necesitas</label>
+              <select id="fs">
+                <option value="" disabled selected>Selecciona un servicio</option>
+                <option>Soporte t&eacute;cnico remoto</option>
+                <option>Soporte t&eacute;cnico presencial</option>
+                <option>Reparaci&oacute;n de PC o laptop</option>
+                <option>Reparaci&oacute;n de impresora</option>
+                <option>Alquiler de equipos</option>
+                <option>Desarrollo de software</option>
+                <option>Redes e infraestructura</option>
+                <option>Otro / No s&eacute; a&uacute;n</option>
+              </select>
+            </div>
+            <div class="form-grp">
+              <label>Describe el problema</label>
+              <textarea placeholder="Qu&eacute; est&aacute; pasando? Qu&eacute; equipo o sistema est&aacute; afectado?" id="fd"></textarea>
+            </div>
+            <button type="submit" class="btn-send" id="sbtn">Enviar solicitud &rarr;</button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-wrap">
+          <div class="logo-box" style="transform:none">T</div>
+          <span class="logo-name">TechSupport Pro</span>
+        </div>
+        <p>Soporte t&eacute;cnico empresarial, reparaci&oacute;n de equipos y desarrollo de software en toda Colombia.</p>
+        <div class="footer-socials">
+          <a href="#" class="fsoc">in</a>
+          <a href="#" class="fsoc">ig</a>
+          <a href="#" class="fsoc">fb</a>
+          <a href="#" class="fsoc">X</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#servicios">Soporte remoto</a></li>
+          <li><a href="#servicios">Soporte presencial</a></li>
+          <li><a href="#servicios">Reparaci&oacute;n PC/Laptop</a></li>
+          <li><a href="#servicios">Reparaci&oacute;n impresoras</a></li>
+          <li><a href="#servicios">Alquiler de equipos</a></li>
+          <li><a href="#servicios">Desarrollo software</a></li>
+          <li><a href="#servicios">Redes empresariales</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#">Nosotros</a></li>
+          <li><a href="#">Equipo t&eacute;cnico</a></li>
+          <li><a href="#">Blog t&eacute;cnico</a></li>
+          <li><a href="#">Casos de &eacute;xito</a></li>
+          <li><a href="#">Trabaja con nosotros</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://wa.me/573001234567">WhatsApp</a></li>
+          <li><a href="mailto:soporte@techsupportpro.com.co">Email soporte</a></li>
+          <li><a href="tel:+576013456789">(601) 345-6789</a></li>
+          <li><a href="#">Todo Colombia (remoto)</a></li>
+          <li><a href="#">Lun&ndash;S&aacute;b 7am&ndash;8pm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 TechSupport Pro S.A.S &middot; NIT: 901.XXX.XXX-X &middot; Colombia</p>
+      <p><a href="#">Privacidad</a> &nbsp;&middot;&nbsp; <a href="#">T&eacute;rminos</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     WHATSAPP FLOAT
+══════════════════════════════════════════ -->
+<a href="https://wa.me/573001234567?text=Hola%20TechSupport%20Pro%2C%20necesito%20soporte%20t%C3%A9cnico"
+   target="_blank" class="wa-btn">
+  <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+  <span>Soporte en WhatsApp</span>
+</a>
+
+<script>
+// ── nav scroll ────────────────────────────────
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('stuck', window.scrollY > 55);
+  var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  document.getElementById('prog').style.width = pct + '%';
+});
+
+// ── mobile menu ───────────────────────────────
+function toggleMenu() {
+  document.getElementById('menu').classList.toggle('open');
+}
+document.querySelectorAll('#menu a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    document.getElementById('menu').classList.remove('open');
+  });
+});
+
+// ── smooth scroll ─────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    var id = a.getAttribute('href');
+    if (id === '#') return;
+    var el = document.querySelector(id);
+    if (el) {
+      e.preventDefault();
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 75, behavior: 'smooth' });
+    }
+  });
+});
+
+// ── scroll reveal ─────────────────────────────
+var srObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.sr').forEach(function(el) { srObs.observe(el); });
+
+// ── counters ──────────────────────────────────
+function animCount(id, target) {
+  var el = document.getElementById(id);
+  var dur = 1800, step = Math.ceil(target / (dur / 16)), cur = 0;
+  var obs = new IntersectionObserver(function(ens) {
+    if (!ens[0].isIntersecting) return;
+    obs.disconnect();
+    var t = setInterval(function() {
+      cur = Math.min(cur + step, target);
+      el.textContent = cur;
+      if (cur >= target) clearInterval(t);
+    }, 16);
+  }, { threshold: 0.5 });
+  obs.observe(el);
+}
+animCount('k1', 200);
+animCount('k2', 98);
+animCount('k3', 2);
+animCount('k4', 24);
+
+// ── services click → contacto ─────────────────
+document.querySelectorAll('.svc-row').forEach(function(row) {
+  row.addEventListener('click', function() {
+    document.querySelector('#contacto').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ── form submit ───────────────────────────────
+function submitForm(e) {
+  e.preventDefault();
+  var btn  = document.getElementById('sbtn');
+  var name = document.getElementById('fn').value;
+  var mail = document.getElementById('fem').value;
+  var tel  = document.getElementById('ft').value;
+  var svc  = document.getElementById('fs').value || 'soporte tecnico';
+  var desc = document.getElementById('fd').value;
+
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  setTimeout(function() {
+    btn.textContent = 'Solicitud recibida! Te escribimos pronto.';
+    btn.classList.add('ok');
+    var msg = encodeURIComponent(
+      'Hola TechSupport Pro\n\n' +
+      'Nombre: ' + name + '\n' +
+      'Email: ' + mail + '\n' +
+      (tel ? 'Telefono: ' + tel + '\n' : '') +
+      'Servicio: ' + svc + '\n' +
+      (desc ? '\nDetalle: ' + desc : '') +
+      '\n\nAcabo de enviar el formulario en la web.'
+    );
+    setTimeout(function() {
+      window.open('https://wa.me/573001234567?text=' + msg, '_blank');
+      btn.disabled = false;
+    }, 900);
+  }, 1300);
+}
+</script>
+</body>
+</html>
